@@ -35,10 +35,9 @@ def create():
         "author": request.json['author'],
         "price": request.json['price'],
     }
-    values =(book['title'],book['author'],book['price'])
-    newId = bookDAO.create(values)
-    book['id'] = newId
-    return jsonify(book)
+    addedbook = bookDAO.create(book)
+    
+    return jsonify(addedbook)
 
 #curl  -i -H "Content-Type:application/json" -X PUT -d "{\"title\":\"hello\",\"author\":\"someone\",\"price\":123}" http://127.0.0.1:5000/books/1
 @app.route('/books/<int:id>', methods=['PUT'])
@@ -59,8 +58,7 @@ def update(id):
         foundBook['author'] = reqJson['author']
     if 'price' in reqJson:
         foundBook['price'] = reqJson['price']
-    values = (foundBook['title'],foundBook['author'],foundBook['price'],foundBook['id'])
-    bookDAO.update(values)
+    bookDAO.update(id,foundBook)
     return jsonify(foundBook)
         
 

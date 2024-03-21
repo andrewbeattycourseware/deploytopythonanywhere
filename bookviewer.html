@@ -178,7 +178,7 @@
 
     }
     function createBookAjax(book){
-        //var car = {"reg":"12 D 1234","make":"Fiat","model":"Punto","price":3000}
+        //var book = {"title":"yoto", "author":"momo","price":800}
         console.log(JSON.stringify(book));
         $.ajax({
             "url": "/books",
@@ -199,7 +199,7 @@
         });
     }
     function updateBookAjax(book){
-        //var car = {"reg":"12 D 1234","price":8000}
+        //var book = {"title":"yoto", "author":"momo","price":800}
         console.log(JSON.stringify(book));
         $.ajax({
             "url": "/books/"+encodeURI(book.id),

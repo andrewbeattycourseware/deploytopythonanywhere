@@ -1,7 +1,3 @@
-# boook dao 
-# this is a demonstration a data layer that connects to a datbase
-# Author: Andrew Beatty
-
 import mysql.connector
 import dbconfig as cfg
 class BookDAO:
@@ -32,15 +28,25 @@ class BookDAO:
         self.connection.close()
         self.cursor.close()
          
+    def create(self, values):
+        cursor = self.getcursor()
+        sql="insert into book (title,author, price) values (%s,%s,%s)"
+        cursor.execute(sql, values)
+
+        self.connection.commit()
+        newid = cursor.lastrowid
+        self.closeAll()
+        return newid
+
     def getAll(self):
         cursor = self.getcursor()
         sql="select * from book"
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
-        #print(results)
+        print(results)
         for result in results:
-            #print(result)
+            print(result)
             returnArray.append(self.convertToDictionary(result))
         
         self.closeAll()
@@ -57,24 +63,9 @@ class BookDAO:
         self.closeAll()
         return returnvalue
 
-    def create(self, book):
-        cursor = self.getcursor()
-        sql="insert into book (title,author, price) values (%s,%s,%s)"
-        values = (book.get("title"), book.get("author"), book.get("price"))
-        cursor.execute(sql, values)
-
-        self.connection.commit()
-        newid = cursor.lastrowid
-        book["id"] = newid
-        self.closeAll()
-        return book
-
-
-    def update(self, id, book):
+    def update(self, values):
         cursor = self.getcursor()
         sql="update book set title= %s,author=%s, price=%s  where id = %s"
-        print(f"update book {book}")
-        values = (book.get("title"), book.get("author"), book.get("price"),id)
         cursor.execute(sql, values)
         self.connection.commit()
         self.closeAll()
@@ -91,14 +82,15 @@ class BookDAO:
         
         print("delete done")
 
-    def convertToDictionary(self, resultLine):
-        attkeys=['id','title','author', "price"]
-        book = {}
-        currentkey = 0
-        for attrib in resultLine:
-            book[attkeys[currentkey]] = attrib
-            currentkey = currentkey + 1 
-        return book
-
+    def convertToDictionary(self, result):
+        colnames=['id','title','author', "price"]
+        item = {}
+        
+        if result:
+            for i, colName in enumerate(colnames):
+                value = result[i]
+                item[colName] = value
+        
+        return item
         
 bookDAO = BookDAO()
