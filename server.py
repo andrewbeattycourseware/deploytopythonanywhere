@@ -54,7 +54,7 @@ def update(id):
 
     if 'title' in reqJson:
         foundBook['title'] = reqJson['title']
-    if 'Author' in reqJson:
+    if 'author' in reqJson:
         foundBook['author'] = reqJson['author']
     if 'price' in reqJson:
         foundBook['price'] = reqJson['price']
