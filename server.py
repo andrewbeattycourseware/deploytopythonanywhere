@@ -11,11 +11,13 @@ app = Flask(__name__, static_url_path='', static_folder='.')
 #app = Flask(__name__)
 
 @app.route('/')
+@cross_origin()
 def index():
     return "Hello, World!"
 
 #curl "http://127.0.0.1:5000/books"
 @app.route('/books')
+@cross_origin()
 def getAll():
     #print("in getall")
     results = bookDAO.getAll()
@@ -23,6 +25,7 @@ def getAll():
 
 #curl "http://127.0.0.1:5000/books/2"
 @app.route('/books/<int:id>')
+@cross_origin()
 def findById(id):
     foundBook = bookDAO.findByID(id)
 
@@ -30,6 +33,7 @@ def findById(id):
 
 #curl  -i -H "Content-Type:application/json" -X POST -d "{\"title\":\"hello\",\"author\":\"someone\",\"price\":123}" http://127.0.0.1:5000/books
 @app.route('/books', methods=['POST'])
+@cross_origin()
 def create():
     
     if not request.json:
@@ -46,6 +50,7 @@ def create():
 
 #curl  -i -H "Content-Type:application/json" -X PUT -d "{\"title\":\"hello\",\"author\":\"someone\",\"price\":123}" http://127.0.0.1:5000/books/1
 @app.route('/books/<int:id>', methods=['PUT'])
+@cross_origin()
 def update(id):
     foundBook = bookDAO.findByID(id)
     if not foundBook:
@@ -70,6 +75,7 @@ def update(id):
     
 
 @app.route('/books/<int:id>' , methods=['DELETE'])
+@cross_origin()
 def delete(id):
     bookDAO.delete(id)
     return jsonify({"done":True})
