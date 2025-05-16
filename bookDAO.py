@@ -89,7 +89,7 @@ class BookDAO:
         self.connection.commit()
         self.closeAll()
         
-        print("delete done")
+        #print("delete done")
 
     def convertToDictionary(self, resultLine):
         attkeys=['id','title','author', "price"]
