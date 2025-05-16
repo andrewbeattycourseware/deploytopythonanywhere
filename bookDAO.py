@@ -34,7 +34,7 @@ class BookDAO:
          
     def getAll(self):
         cursor = self.getcursor()
-        sql="select * from book"
+        sql="select * from booksds"
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
